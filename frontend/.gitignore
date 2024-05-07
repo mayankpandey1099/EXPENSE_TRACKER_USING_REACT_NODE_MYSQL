@@ -1,0 +1,5 @@
+.parcelrc
+.postcssrc
+node_modules
+.parcel-cache
+dist
