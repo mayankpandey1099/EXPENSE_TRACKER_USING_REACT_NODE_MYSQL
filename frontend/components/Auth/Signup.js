@@ -1,4 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
+
+import axios from "axios";
 // import { ExpenseContext } from "./ExpenseContext";// Import the CartContext
 
 const Signup = () => {
@@ -7,6 +9,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // const { setAuthenticated } = useContext(ExpenseContext); 
 
@@ -14,12 +17,37 @@ const Signup = () => {
     setShowModal(true); // Open the modal when the component mounts
   }, []);
 
-  const handleSignUp = () => {
-    // Implement sign-up logic here
-    const signupdata = {name, email, password, repassword};
-    console.log(signupdata);
-    setShowModal(false);
-    window.location.href = "/home";
+  const validatePassword = () => {
+    return password === repassword;
+  };
+
+  const handleSignUp = async () => {
+    // Check if passwords match
+    if (!validatePassword()) {
+      alert("Passwords do not match.");
+      return;
+    }
+    setLoading(true);
+
+    // Proceed with sign-up logic
+    const signupData = { name, email, password };
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/sign/signup",
+        signupData
+      );
+      console.log(response.data); // Handle success response here
+      setShowModal(false);
+      window.location.href = "/home";
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        alert("Email is already registered. Please sign in with that email.");
+      } else {
+        alert("An error occurred while signing up. Please try again later.");
+      }// Handle error here
+    } finally{
+        setLoading(false);
+    }
   };
 
   return (
@@ -115,8 +143,9 @@ const Signup = () => {
                       type="button"
                       onClick={handleSignUp}
                       className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                      disabled={loading}
                     >
-                      Sign Up
+                      {loading ? "Signing you up..." : "Signup"}
                     </button>
                   </form>
                 </div>

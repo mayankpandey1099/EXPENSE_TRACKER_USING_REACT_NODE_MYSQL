@@ -1,17 +1,14 @@
 require("dotenv").config({ path: "nodemon.json" });
-var SibApiV3Sdk = require("sib-api-v3-sdk");
 const forgotPasswordRequest = require("../models/forgotpassModel");
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const sequelize = require("../database");
-
-const apiKey = process.env.ForgotPassKey;
+const nodemailer = require("nodemailer");
 
 
 const forgotpasswordData = async (req, res, next) => {
   try {
-    const defaultClient = SibApiV3Sdk.ApiClient.instance;
-    const email = req.body.email;
+    const {email} = req.body;
 
     const user = await User.findOne({ where: { email: email } });
     if (user) {
@@ -20,40 +17,51 @@ const forgotpasswordData = async (req, res, next) => {
         isactive: true,
       });
 
-      console.log("this is users id",user.id);
+      const resetPasswordLink = `http://localhost:3000/pass/resetpassword/${forpasswordrequest.id}`;
+      const htmlContent = `<p>Click <a href="${resetPasswordLink}">here</a> to reset your password.</p>`;
 
-      console.log("this is forpasswordrequest userId", forpasswordrequest.userId);
-
-      console.log("this is forpasswordrequest id", forpasswordrequest.id);
-
-      const apiKeyInstance = defaultClient.authentications["api-key"];
-      apiKeyInstance.apiKey = apiKey;
-      const transactionalEmailsApi = new SibApiV3Sdk.TransactionalEmailsApi();
-      const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-
-      // Configure the email
-      sendSmtpEmail.to = [{ email: email }];
-      sendSmtpEmail.sender = { email: "rampandeylko@gmail.com", name: "Mayank Pandey" };
-      sendSmtpEmail.subject = "Password Recovery";
-      sendSmtpEmail.htmlContent = `<a href="http://localhost:3000/api/pass/resetpassword/${forpasswordrequest.id} "> click here to reset password</a>`; // Replace with your email content
-
-      // Send the email
-      await transactionalEmailsApi.sendTransacEmail(sendSmtpEmail);
+      // Call sendSuccessEmail function
+      await sendSuccessEmail(email, "Password Recovery", htmlContent);
 
       console.log("Recovery email sent successfully");
       res.status(200).json({ message: "Recovery email sent successfully" });
     } else {
       // Handle the case when the user with the provided email does not exist.
-      res.status(404).json({ message: "User not found" });
+      res.status(404).json({ message: "Email id not found" });
     }
   } catch (err) {
     console.error(
       "Error sending recovery email:",
-      err.response ? err.response.text : err.message
+      err
     );
     res.status(500).json({ message: "Error sending recovery email" });
   }
 };
+
+
+async function sendSuccessEmail(to, subject, html) {
+  const transporter = nodemailer.createTransport({
+    service: "Gmail", // Your email service provider
+    auth: {
+      user: process.env.EMAIL_ID, // Your email address
+      pass: process.env.EMAIL_PASS, // Your email password
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_ID,
+    to,
+    subject,
+    html,
+  }
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("Success email sent");
+  } catch (error) {
+    console.error("Error sending success email:", error);
+  }
+};
+
 
 const resetpassword = async (req, res, next) => {
   try {
@@ -69,13 +77,14 @@ const resetpassword = async (req, res, next) => {
     // Redirect the user to the password reset form with the UUID as a query parameter
     console.log("this is req params uuid in restpassword ", req.params.uuid);
     res.redirect(
-      `http://127.0.0.1:3000/api/redirecting/reset?uuid=${req.params.uuid}`
+      `http://localhost:1234/resetpassword/${req.params.uuid}`
     );
   } catch (err) {
     console.error("Error in resetpassword route:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 const newpassword = async (req, res, next) => {
   let t;
@@ -104,7 +113,6 @@ const newpassword = async (req, res, next) => {
 
     // Set isactive to false after the link is used
     await forpasswordrequest.update({ isactive: false }, { transaction: t });
-
     t.commit();
     console.log(updatedUser);
     res.status(200).json({ message: "Password updated successfully" });

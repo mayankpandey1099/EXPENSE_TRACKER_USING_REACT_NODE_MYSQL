@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Home from "./Home";
 import About from "./About";
 import ContactUs from "./ContactUs";
-// import { ExpenseProvider } from "./ExpenseContext";
 import { Route, Routes } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
-import Signin from "./Signin";
-import Signup from "./Signup";
-import ForgotPassword from "./ForgotPassword";
+import { AuthProvider, AuthContext } from "./AuthContext";
+import Header from "./Layout/Header";
+import Footer from "./Layout/Footer";
+import Signin from "./Auth/Signin";
+import Signup from "./Auth/Signup";
+import ForgotPassword from "./Auth/ForgotPassword";
+import ResetPassword from "./Auth/ResetPassword";
+
 
 const App = () => {
   return (
@@ -17,10 +19,11 @@ const App = () => {
         <div>
           <div>
             <Routes>
-              <Route path="/home" element={<Home />} />
               <Route path="/" element={<Signin />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="/resetpassword/:uuid" element={<ResetPassword />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/ContactUs" element={<ContactUs />} />
             </Routes>

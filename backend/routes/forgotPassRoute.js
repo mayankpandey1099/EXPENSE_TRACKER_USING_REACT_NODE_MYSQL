@@ -6,8 +6,8 @@ const {
   newpassword,
 } = require("../controllers/forgotpassController");
 
-router.post("/forgotpassword", forgotpasswordData);
+router.post("/forgot", forgotpasswordData);
 router.get("/resetpassword/:uuid", resetpassword);
-router.post("/newpassword", newpassword);
+router.post("/reset", newpassword);
 
 module.exports = router;

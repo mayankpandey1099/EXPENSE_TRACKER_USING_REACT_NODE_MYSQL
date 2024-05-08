@@ -3,7 +3,7 @@ const router = express.Router();
 const { processSignUp, processLogin } = require("../controllers/signup&loginController");
 
 
-router.post("/signupUser",processSignUp);
-router.post("/loginUser", processLogin);
+router.post("/signup",processSignUp);
+router.post("/login", processLogin);
 
 module.exports = router;

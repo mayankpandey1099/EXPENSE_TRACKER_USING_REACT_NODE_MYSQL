@@ -9,7 +9,7 @@ const nodemailer = require("nodemailer");
 // signup function for the user to sign in
 
 const processSignUp = async (req, res) => {
-  const { name, email, password, isPremium } = req.body;
+  const { name, email, password} = req.body;
 
   try {
     if (!name || !email || !password) {
@@ -20,7 +20,7 @@ const processSignUp = async (req, res) => {
 
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(409).json({ error: "Email is already registered" });
+      return res.status(409).json({ message: "Email is already registered" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -30,9 +30,9 @@ const processSignUp = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      ispremiumuser: isPremium,
+      ispremiumuser: false,
     });
-  
+    const isPremium = false;
     const token = jwt.sign({ userId: newUser.id }, process.env.jwtSecret);
     const subject = "Registration Successful";
     const text = "Thank you for registering. Your registration was successful.";
@@ -61,7 +61,7 @@ const processLogin = async (req, res) => {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(401).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
@@ -78,7 +78,7 @@ const processLogin = async (req, res) => {
     } else {
       console.log("password not match");
       // Passwords don't match
-      res.status(401).json({ error: "Invalid credentials" });
+      res.status(409).json({ error: "Invalid credentials" });
     }
   } catch (error) {
     console.error("Error during login", error);

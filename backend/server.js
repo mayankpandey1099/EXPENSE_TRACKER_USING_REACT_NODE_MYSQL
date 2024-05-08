@@ -35,33 +35,10 @@ const accessLogStream = fs.createWriteStream(
 );
 
 
-// calling helmet, cors, json, making absolute path for static files
+// calling cors, json, making absolute path for static files
 
 app.use(cors());
 app.use(express.json());
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: {
-//       directives: {
-//         defaultSrc: ["'self'"],
-//         scriptSrc: [
-//           "'self'",
-//           "'unsafe-inline'",
-//           "https://code.jquery.com/",
-//           "*",
-//         ],
-//         styleSrc: [
-//           "'self'",
-//           "'unsafe-inline'",
-//           "*",
-//         ],
-//         frameSrc: ["'self'", "https://api.razorpay.com/"],
-//         scriptSrcAttr: ["'self'", "'unsafe-inline'"],
-//         upgradeInsecureRequests: [],
-//       },
-//     },
-//   })
-// );
 app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("combined", { stream: accessLogStream }));
 
@@ -95,11 +72,10 @@ user.hasMany(forgotPasswordRequest, {
 
 
 //making the route endpoint, server can handle the route request and sending the response
-app.use("/api/sign", signup_loginRoute);
-app.use("/api/pass", forgotPassRoute);
-app.use("/api/redirecting", redirectingRoute);
-app.use("/api/expenses", verify.verify, expenseRoute);
-app.use("/api/premium",verify.verify, premiumRoute);
+app.use("/sign", signup_loginRoute);
+app.use("/pass", forgotPassRoute);
+app.use("/expenses", verify.verify, expenseRoute);
+app.use("/premium",verify.verify, premiumRoute);
 
 
 // making the port for server to listen
@@ -116,7 +92,6 @@ async function initiate() {
     await sequelize.sync();
     app.listen(port, () => {
       console.log(`Server is running at ${port}`);
-      app.use("/api", redirectingRoute);
     });
   } catch (error) {
     console.log(error);

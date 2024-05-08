@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
 // import { ExpenseContext } from "./ExpenseContext"; // Import the CartContext
 import {Link} from "react-router-dom";
 
@@ -6,37 +7,50 @@ const Signin = () => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const { setAuthenticated } = useContext(ExpenseContext); // Access the setAuthenticated function from CartContext
+  const [loading, setLoading] = useState(false); 
+  const { setAuthenticated } = useContext(AuthContext); // Access the setAuthenticated function from CartContext
 
   useEffect(() => {
     setShowModal(true); // Open the modal when the component mounts
   }, []);
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     // Implement sign-in logic here
-    // For demonstration purposes, let's assume authentication is successful
-    //setAuthenticated(true);
-    //closeModal();
+    setLoading(true);
     const signInData = { email, password };
-    console.log(signInData);
-    setShowModal(false); 
-    window.location.href = "/home";
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/sign/login",
+        signInData
+      );
+      console.log(response.data); // Handle success response here
+      setAuthenticated(true);
+      setShowModal(false);
+      window.location.href = "/home";
+    } catch (error) {
+      // Handle error here
+      if (error.response && error.response.status === 409) {
+        alert("Password does not match. Please try again.");
+      } else if(error.response && error.response.status === 404) {
+        alert("User not found. Please signin with registered email");
+      }else{
+        console.error("Error signing in:", error); 
+      }
+    } finally {
+      setLoading(false); // Hide loading spinner regardless of success or failure
+    }
   };
   return (
     <div className="signin-page flex justify-center items-center h-screen  bg-gray-200">
       <div className="p-8 rounded-lg shadow-xxl">
         {showModal && (
-          <div
-            id="authentication-modal"
-            className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden flex justify-center items-center"
-          >
+          <div className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden flex justify-center items-center">
             <div className="relative p-4 w-full max-w-md">
               <div className="relative bg-white rounded-lg shadow">
                 <div className="flex items-center justify-between p-4 border-b rounded-t">
                   <h3 className="text-xl font-semibold text-gray-900">
                     Sign in to our platform
                   </h3>
-                  {/* No Close Button */}
                 </div>
                 <div className="p-4">
                   <form className="space-y-4" action="#">
@@ -88,8 +102,9 @@ const Signin = () => {
                       type="button"
                       className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                       onClick={handleSignIn}
+                      disabled={loading}
                     >
-                      Login to your account
+                      {loading ? "Logging in..." : "Login to your account"}
                     </button>
                     <div className="text-sm font-medium text-gray-500">
                       <button className="text-blue-500 hover:underline">
