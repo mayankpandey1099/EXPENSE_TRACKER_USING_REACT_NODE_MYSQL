@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
-// import { ExpenseContext } from "./ExpenseContext";
+import React from "react";
 
 const Home = () => {
-  // const { showSuccessMessage } = useContext(ExpenseContext);
+
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-center m-4">
@@ -14,11 +13,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {/* {showSuccessMessage && (
-        <div className="fixed top-0 right-0 m-4 bg-green-200 text-green-800 p-2 rounded">
-          Product added successfully!
-        </div>
-      )} */}
     </div>
   );
 };

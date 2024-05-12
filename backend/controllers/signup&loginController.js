@@ -71,9 +71,9 @@ const processLogin = async (req, res) => {
     if (passwordMatch) {
       console.log("password match");
       //Passwords match, so the user is authenticated
-      const subject = "Login Successful";
-      const text = "Thank you for logging in. Your login was successful.";
-      await sendSuccessEmail(email,subject,text);
+      // const subject = "Login Successful";
+      // const text = "Thank you for logging in. Your login was successful.";
+      // //await sendSuccessEmail(email,subject,text);
       res.status(200).json({ message: "login successfully", token , isPremium});
     } else {
       console.log("password not match");

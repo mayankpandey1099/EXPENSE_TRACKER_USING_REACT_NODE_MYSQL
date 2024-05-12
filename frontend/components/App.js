@@ -3,34 +3,43 @@ import Home from "./Home";
 import About from "./About";
 import ContactUs from "./ContactUs";
 import { Route, Routes } from "react-router-dom";
-import { AuthProvider, AuthContext } from "./AuthContext";
+import {useSelector} from "react-redux";
 import Header from "./Layout/Header";
 import Footer from "./Layout/Footer";
-import Signin from "./Auth/Signin";
-import Signup from "./Auth/Signup";
+import AuthParent from "./Auth/AuthParent";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ResetPassword from "./Auth/ResetPassword";
 
 
 const App = () => {
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuth);
   return (
+    <div>
+      <Header />
       <div>
-        <Header />
         <div>
-          <div>
-            <Routes>
-              <Route path="/" element={<Signin />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/forgotpassword" element={<ForgotPassword />} />
-              <Route path="/resetpassword/:uuid" element={<ResetPassword />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/ContactUs" element={<ContactUs />} />
-            </Routes>
-          </div>
+          <Routes>
+            <Route path="/" element={<AuthParent />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/resetpassword/:uuid" element={<ResetPassword />} />
+            <Route
+              path="/home"
+              element={isAuthenticated ? <Home /> : <AuthParent />}
+            />
+            <Route
+              path="/about"
+              element={isAuthenticated ? <About /> : <AuthParent />}
+            />
+            <Route
+              path="/contactus"
+              element={isAuthenticated ? <ContactUs /> : <AuthParent />}
+            />
+          </Routes>
         </div>
-        <Footer />
       </div>
+      <Footer />
+    </div>
   );
 };
 

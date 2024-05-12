@@ -32,7 +32,6 @@ const ResetPassword = () => {
       const response = axios.post("http://localhost:3000/pass/reset",
         resetPasswordData
       )
-      console.log(response.data);
       setPassReset(true);
       setTimeout(() => {
         setPassReset(false);

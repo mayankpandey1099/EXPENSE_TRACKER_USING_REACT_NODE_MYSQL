@@ -7,8 +7,12 @@ const Footer = () => {
     };
   return (
     <div
-      className="bg-gray-800 text-white py-2 text-center bottom-0 w-full"
-      style={linkStyle}
+      className="text-white py-5 text-center bottom-0 w-full"
+      style={{
+        backgroundColor: "#4D869C",
+        fontWeight: "bold",
+        fontFamily: "Montserrat, sans-serif",
+      }}
     >
       <p className="text-xl font-bold" style={linkStyle}>
         &copy; 2024 The Generics
