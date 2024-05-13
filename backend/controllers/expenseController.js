@@ -2,7 +2,6 @@ const List = require("../models/expenseModel");
 const User = require("../models/userModel");
 const sequelize = require("../database");
 const DownloadedFiles = require("../models/downloadfileModel");
-const UserServices  = require("../service/userservices");
 const S3Services = require("../service/S3services");
 
 
@@ -10,7 +9,7 @@ const S3Services = require("../service/S3services");
   const getAllPaginatedExpenses = async (req, res) => {
     try {
       const userId = req.user.userId;
-      const page = req.query.page || 1; // Get the requested page from query parameters
+      const page = req.query.page; // Get the requested page from query parameters
       const pageSize = 5; // Set the page size
 
       const { count, rows } = await List.findAndCountAll({
@@ -28,6 +27,7 @@ const S3Services = require("../service/S3services");
         currentPage: page,
         expenses: rows,
       });
+      console.log("successfully dispatched the data");
     } catch (error) {
       console.error("Error fetching paginated expenses:", error);
       res.status(500).json({
@@ -77,8 +77,9 @@ const S3Services = require("../service/S3services");
       }
       );
       await t.commit();
+      console.log("data stored");
 
-      res.status(201).json(newExpense);
+      res.status(201).json("expense stored successfully");
     } catch (error) {
       if(t){
         await t.rollback();
@@ -126,6 +127,8 @@ const S3Services = require("../service/S3services");
       );
 
       await t.commit();
+
+      console.log("data deleted");
 
       res.json({
         message: "Expense deleted successfully",
@@ -188,7 +191,7 @@ const S3Services = require("../service/S3services");
 
       await t.commit();
 
-     
+      console.log("data updated");
       res.json(updatedExpense);
     } catch (error) {
       if(t){

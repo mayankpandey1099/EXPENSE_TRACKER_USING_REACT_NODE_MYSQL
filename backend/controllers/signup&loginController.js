@@ -34,9 +34,9 @@ const processSignUp = async (req, res) => {
     });
     const isPremium = false;
     const token = jwt.sign({ userId: newUser.id }, process.env.jwtSecret);
-    const subject = "Registration Successful";
-    const text = "Thank you for registering. Your registration was successful.";
-    await sendSuccessEmail(email,subject,text);
+    // const subject = "Registration Successful";
+    // const text = "Thank you for registering. Your registration was successful.";
+    //await sendSuccessEmail(email,subject,text);
     res.status(201).json({
       message:
         "registration successful. Check your email for a confirmation message",

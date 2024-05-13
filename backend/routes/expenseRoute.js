@@ -14,7 +14,7 @@ const {
 
 
 router.post("/", createExpense);
-router.get("/paginated", getAllPaginatedExpenses);
+router.get("/expenses", getAllPaginatedExpenses);
 router.get("/download", downloadExpense);
 router.get("/filehistory", getfilehistory);
 router.get("/:id", getExpenseById);

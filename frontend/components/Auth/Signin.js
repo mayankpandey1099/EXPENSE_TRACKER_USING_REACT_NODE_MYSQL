@@ -60,8 +60,8 @@ const Signin = () => {
   return (
     showModal && (
       <div className="fixed top-40 bottom-40 left-0 right-0 flex justify-center items-center backdrop-blur-sm">
-        <div className="relative p-4 w-full max-w-md">
-          <div className="relative bg-white rounded-lg shadow">
+        <div className="relative p-4 w-full max-w-md ">
+          <div className="relative bg-white shadow rounded-lg">
             <div
               className="flex items-center justify-between p-4 border-b rounded-t"
               style={{ backgroundColor: "#0766AD" }}

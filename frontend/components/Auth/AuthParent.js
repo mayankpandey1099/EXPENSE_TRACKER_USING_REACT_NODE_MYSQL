@@ -30,7 +30,9 @@ const AuthParent = () => {
         <img
           src={images[imageIndex]}
           alt={`Image ${imageIndex}`}
-          className="w-85 h-full object-cover"
+          className="object-cover"
+          style={{ width: "700px",
+  height: "450px" }}
         />
       </div>
       <div className="p-8 rounded-lg shadow-xxl">

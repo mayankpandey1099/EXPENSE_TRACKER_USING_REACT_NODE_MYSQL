@@ -18,6 +18,7 @@ export const authSlice = createSlice({
     clearAuthState: (state) => {
       state.isAuth = false;
       state.isPremium = false;
+      localStorage.removeItem("isPremium");
       localStorage.removeItem("token");
     },
   },

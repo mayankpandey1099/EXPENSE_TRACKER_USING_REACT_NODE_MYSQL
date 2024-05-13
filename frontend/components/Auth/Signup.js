@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setAuthenticated, setPremium } from "../../utils/AuthSlice";
+import { setAuthenticated, setPremium } from "../../utils/AuthSlice.js";
 import { setModalStateSignup } from "../../utils/ModalSlice";
 
 const Signup = () => {
@@ -13,7 +13,6 @@ const Signup = () => {
   const dispatch = useDispatch();
 
   const showModal = useSelector((state) => state.modal.showModalSignup);
-  console.log("this is the modal signup",showModal);
  
   const validatePassword = () => {
     return password === repassword;
@@ -34,8 +33,9 @@ const Signup = () => {
         "http://localhost:3000/sign/signup",
         signupData
       );
-      console.log(response.data); // Handle success response here
-      dispatch(setAuthenticated(true, response.data.token));
+    // Handle success response here
+      const token = response.data.token;
+      dispatch(setAuthenticated(token));
       dispatch(setPremium(response.data.isPremium));
       dispatch(setModalStateSignup(false));
       window.location.href = "/home";

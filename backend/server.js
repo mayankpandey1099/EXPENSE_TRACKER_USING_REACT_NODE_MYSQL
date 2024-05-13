@@ -13,7 +13,6 @@ const morgan = require("morgan");
 const verify = require("./middleware/verifyToken");
 
 //importing routes
-const redirectingRoute = require("./routes/redirectingRoute");
 const expenseRoute = require("./routes/expenseRoute");
 const signup_loginRoute = require("./routes/signup&loginRoute");
 const forgotPassRoute = require("./routes/forgotPassRoute");
@@ -74,7 +73,7 @@ user.hasMany(forgotPasswordRequest, {
 //making the route endpoint, server can handle the route request and sending the response
 app.use("/sign", signup_loginRoute);
 app.use("/pass", forgotPassRoute);
-app.use("/expenses", verify.verify, expenseRoute);
+app.use("/expense", verify.verify, expenseRoute);
 app.use("/premium",verify.verify, premiumRoute);
 
 

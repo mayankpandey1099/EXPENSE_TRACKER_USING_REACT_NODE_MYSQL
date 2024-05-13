@@ -7,9 +7,8 @@ const Footer = () => {
     };
   return (
     <div
-      className="text-white py-5 text-center bottom-0 w-full"
+      className="text-white py-5 text-center bottom-0 w-full bg-cyan-800"
       style={{
-        backgroundColor: "#4D869C",
         fontWeight: "bold",
         fontFamily: "Montserrat, sans-serif",
       }}

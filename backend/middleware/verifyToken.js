@@ -8,8 +8,8 @@ const verify = async (req, res, next) => {
     const token  = req.header('Authorization');
     const key = process.env.jwtSecret;
 
-    const tokenWithoutBearer = token.replace("Bearer ", "");
-    const user = jwt.verify(tokenWithoutBearer, key);
+    // const tokenWithoutBearer = token.replace("Bearer ", "");
+    const user = jwt.verify(token, key);
 
     User.findOne({where: {id: user.userId}}).then(foundUser => {
       if(foundUser){

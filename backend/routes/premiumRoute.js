@@ -5,7 +5,7 @@ const {getUserLeaderBoard, daily, monthly, yearly} = require("../controllers/lea
 const router = express.Router();
 
 router.get("/takepremium", premiumpending);
-router.post("/updatetransactionstatus", premiumverification);
+router.post("/status", premiumverification);
 router.get("/leaderboard", getUserLeaderBoard);
 router.get("/daily", daily);
 router.get("/monthly", monthly);
