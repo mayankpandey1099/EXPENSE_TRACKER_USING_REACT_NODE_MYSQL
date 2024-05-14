@@ -6,6 +6,7 @@ const modalSlice = createSlice({
   initialState : {
   showModalSignin: false,
   showModalSignup: false,
+  showModalUpdate: false,
   },
   reducers: {
     setModalStateSignin: (state, action) => {
@@ -13,9 +14,12 @@ const modalSlice = createSlice({
     },
     setModalStateSignup: (state, action) =>{
         state.showModalSignup = action.payload;
+    },
+    setModalStateUpdate: (state, action) => {
+      state.showModalUpdate = action.payload;
     }
   },
 });
 
-export const { setModalStateSignin, setModalStateSignup } = modalSlice.actions;
+export const { setModalStateSignin, setModalStateSignup, setModalStateUpdate } = modalSlice.actions;
 export default modalSlice.reducer;

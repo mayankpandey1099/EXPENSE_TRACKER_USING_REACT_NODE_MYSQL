@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {useSelector, useDispatch} from "react-redux";
-import {setCurrentPages, setTotalPages} from "../../utils/ExpenseSlice";
+import {useSelector} from "react-redux";
 import useFetchExpenses from "../hooks/useFetchExpenses";
 
 const ExpenseForm = () => {
@@ -10,14 +9,11 @@ const ExpenseForm = () => {
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
 
 
-  const expenses = useSelector((state)=> state.expense.expenses);
   const currentPages = useSelector((state)=> state.expense.currentPages);
-  const totalPages = useSelector((state)=> state.expense.totalPages);
-  const length = expenses.length;
-
+  
+ 
   const token = localStorage.getItem("token");
 
   const handleSubmit = async (e) => {
@@ -42,8 +38,8 @@ const ExpenseForm = () => {
           },
         }
       );
-      fetchExpenses(currentPages);
-      console.log(response.data, "response from backend");
+      await fetchExpenses(currentPages);
+
     } catch (error) {
       console.error("Error occurred while storing data", error);
     }

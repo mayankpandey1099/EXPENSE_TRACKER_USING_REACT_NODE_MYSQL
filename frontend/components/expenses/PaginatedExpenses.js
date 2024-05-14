@@ -1,22 +1,32 @@
 import React, {useEffect}from "react";
 import useFetchExpenses from "../hooks/useFetchExpenses";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import { setModalStateUpdate } from "../../utils/ModalSlice";
+import { setExpenseId } from "../../utils/ExpenseSlice";
+
 
 const PaginatedExpense = () => {
     const {
       handlePrevPage,
       handleNextPage,
+      handleDeleteExpense
     } = useFetchExpenses();
-
+  const dispatch = useDispatch();
   const expenses = useSelector((state)=>state.expense.expenses);
   const currentPages = useSelector((state) => state.expense.currentPages);
   const totalPages = useSelector((state) => state.expense.totalPages);
+ 
   
   useEffect(()=>{
-    console.log("the paginated data being called", expenses);
   }, [expenses]);
-  
-    
+
+
+  const handleUpdateExpense = (id)=>{
+    dispatch(setModalStateUpdate(true));
+    dispatch(setExpenseId(id));
+  }
+
+   
   return (
     <div>
       <h2 className="text-2xl font-bold text-center border-b-1 shadow-md pb-4 pt-4 bg-slate-400 rounded-t-lg">

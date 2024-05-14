@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const verify = async (req, res, next) => {
   try{
     const token  = req.header('Authorization');
-    console.log(token,"this token is inside the verify");
     const key = process.env.jwtSecret;
 
     // const tokenWithoutBearer = token.replace("Bearer ", "");

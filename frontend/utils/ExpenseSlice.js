@@ -5,7 +5,8 @@ const expenseSlice = createSlice({
   initialState: {
     expenses: [],
     currentPages: 1,
-    totalPages: 1
+    totalPages: 1,
+    expenseId: null
   },
   reducers: {
     setExpenses: (state, action) => {
@@ -17,8 +18,11 @@ const expenseSlice = createSlice({
     setTotalPages: (state, action) => {
       state.totalPages = action.payload;
     },
+    setExpenseId: (state, action) => {
+      state.expenseId = action.payload;
+    }
   },
 });
 
-export const { setExpenses, setCurrentPages, setTotalPages } = expenseSlice.actions;
+export const { setExpenses, setCurrentPages, setTotalPages, setExpenseId } = expenseSlice.actions;
 export default expenseSlice.reducer;

@@ -17,12 +17,10 @@ const Header = () => {
   const isPremium = useSelector((state) => state.auth.isPremium); 
   const dispatch = useDispatch();
   let token = localStorage.getItem("token");
-  console.log(token, "tokenoutside useEffect");
 
   useEffect(() => {
     // This useEffect will re-run whenever isPremium changes
      token = localStorage.getItem("token");
-     console.log(token, "tokeninside useEffect");
   }, [isPremium, isAuthenticated]);
 
   // Function to handle click on Sign in button

@@ -6,8 +6,6 @@ import { setPremium } from "../../utils/AuthSlice";
 
 const useRazorpay = (token) => {
   const dispatch = useDispatch();
-
-  console.log("the token inside the useRazorpay", token);
   
 
   const handlePremium = useCallback(async () => {
