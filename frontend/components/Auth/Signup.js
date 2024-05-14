@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setAuthenticated, setPremium } from "../../utils/AuthSlice.js";
 import { setModalStateSignup } from "../../utils/ModalSlice";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -11,6 +12,7 @@ const Signup = () => {
   const [repassword, setRepassword] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const showModal = useSelector((state) => state.modal.showModalSignup);
  
@@ -35,10 +37,12 @@ const Signup = () => {
       );
     // Handle success response here
       const token = response.data.token;
+      const isPremium = response.data.isPremium;
+      console.log(isPremium, "this is isPremium");
       dispatch(setAuthenticated(token));
-      dispatch(setPremium(response.data.isPremium));
+      dispatch(setPremium(isPremium));
       dispatch(setModalStateSignup(false));
-      window.location.href = "/home";
+      navigate("/");
     } catch (error) {
       if (error.response && error.response.status === 409) {
         alert("Email is already registered. Please sign in with that email.");

@@ -67,6 +67,7 @@ const processLogin = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
     const token = jwt.sign({ userId: user.id }, process.env.jwtSecret);
     const isPremium = user.ispremiumuser;
+    console.log(isPremium, "this is ispremium")
 
     if (passwordMatch) {
       console.log("password match");

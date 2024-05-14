@@ -1,16 +1,21 @@
-import React from "react";
+import React, {useEffect}from "react";
 import useFetchExpenses from "../hooks/useFetchExpenses";
+import {useSelector} from "react-redux";
 
 const PaginatedExpense = () => {
     const {
-      expenses,
-      currentPages,
-      totalPages,
       handlePrevPage,
       handleNextPage,
     } = useFetchExpenses();
-    console.log(expenses);
 
+  const expenses = useSelector((state)=>state.expense.expenses);
+  const currentPages = useSelector((state) => state.expense.currentPages);
+  const totalPages = useSelector((state) => state.expense.totalPages);
+  
+  useEffect(()=>{
+    console.log("the paginated data being called", expenses);
+  }, [expenses]);
+  
     
   return (
     <div>

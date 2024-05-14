@@ -36,7 +36,7 @@ const ResetPassword = () => {
       setTimeout(() => {
         setPassReset(false);
         setShowModal(false);
-        window.location.href = "/";
+        window.location.href = "/signin";
       }, 5000);
        // Close the modal after reset password
     } catch (error) {

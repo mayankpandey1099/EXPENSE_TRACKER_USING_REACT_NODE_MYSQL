@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { setAuthenticated, setPremium } from "../../utils/AuthSlice";
 import { setModalStateSignin } from "../../utils/ModalSlice";
 
@@ -14,6 +14,8 @@ const Signin = () => {
   const [loading, setLoading] = useState(false);// Access the setAuthenticated function from CartContext
   const dispatch = useDispatch();
   const showModal = useSelector((state) => state.modal.showModalSignin);
+  const navigate = useNavigate();
+
 
 
   const handleSignIn = async () => {
@@ -28,15 +30,14 @@ const Signin = () => {
         signInData
       );
       const token = response.data.token;
-
+      const isPremium = response.data.isPremium;
 
       dispatch(setAuthenticated(token));
-      dispatch(setPremium(response.data.isPremium));
+      dispatch(setPremium(isPremium));
       dispatch(setModalStateSignin(false));
-
-
-      window.location.href = "/home";
-
+        
+      navigate("/");
+    
     } catch (error) {
       // Handle error here
       if (error.response && error.response.status === 409) {

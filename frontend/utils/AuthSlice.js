@@ -4,7 +4,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     isAuth: localStorage.getItem("token") ? true : false,
-    isPremium: false,
+    isPremium: localStorage.getItem("isPremium") === "true",
   },
   reducers: {
     setAuthenticated: (state, action) => {

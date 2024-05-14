@@ -1,12 +1,13 @@
 // useFetchExpenses.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {setExpenses, setTotalPages, setCurrentPages } from "../../utils/ExpenseSlice";
 
 const useFetchExpenses = () => {
-  const [expenses, setExpenses] = useState([]);
-  const [currentPages, setCurrentPages] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+  const currentPages = useSelector((state)=>state.expense.currentPages);
 
   const fetchExpenses = async (page) => {
     try {
@@ -19,21 +20,22 @@ const useFetchExpenses = () => {
         }
       );
       const { totalPages, currentPage, expenses } = response.data;
+      console.log(response.data);
       const parsedCurrentPage = parseInt(currentPage);
-      setExpenses(expenses);
-      setCurrentPages(parsedCurrentPage);
-      setTotalPages(totalPages);
+      dispatch(setExpenses(expenses));
+      dispatch(setCurrentPages(parsedCurrentPage));
+      dispatch(setTotalPages(totalPages));
     } catch (error) {
       console.error("Error fetching expenses:", error);
     }
   };
 
   const handlePrevPage = () => {
-      setCurrentPages(currentPages - 1);
+    dispatch(setCurrentPages(currentPages - 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPages(currentPages + 1);
+    dispatch(setCurrentPages(currentPages + 1));
   };
 
   
@@ -43,10 +45,7 @@ const useFetchExpenses = () => {
   }, [currentPages]);
 
   return {
-    expenses,
     fetchExpenses,
-    currentPages,
-    totalPages,
     handlePrevPage,
     handleNextPage
   };

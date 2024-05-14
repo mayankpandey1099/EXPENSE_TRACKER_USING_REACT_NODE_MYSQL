@@ -7,7 +7,6 @@ import { toggleDrawer } from "../../utils/DrawerSlice";
 import Drawer from "./Drawer";
 import useRazorpay from "../hooks/useRazorpay";
 import premium_img from "../../public/premium_img.png";
-import { setPremium } from "../../utils/AuthSlice";
 
 
 const Header = () => {
@@ -15,19 +14,18 @@ const Header = () => {
 
   const isOpen = useSelector((state) => state.drawer.isOpen);
   const isAuthenticated = useSelector((state) => state.auth.isAuth);
-
-
+  const isPremium = useSelector((state) => state.auth.isPremium); 
   const dispatch = useDispatch();
-
-  const isPremium = useSelector((state) => state.auth.isPremium);
-  
+  let token = localStorage.getItem("token");
+  console.log(token, "tokenoutside useEffect");
 
   useEffect(() => {
-    dispatch(setPremium(isPremium)); // Update premium status when isPremium changes
-    console.log(isPremium, "for checking premium");
-  }, [isPremium, dispatch]);
+    // This useEffect will re-run whenever isPremium changes
+     token = localStorage.getItem("token");
+     console.log(token, "tokeninside useEffect");
+  }, [isPremium, isAuthenticated]);
 
-  
+  // Function to handle click on Sign in button
   const handleSignInClick = () => {
     dispatch(setModalStateSignin(true));
     dispatch(setModalStateSignup(false));
@@ -37,15 +35,14 @@ const Header = () => {
   const handleSignUpClick = () => {
     dispatch(setModalStateSignup(true));
     dispatch(setModalStateSignin(false));
-    // Your logic for Sign Up
   };
+
 
   const handleToggleDrawer = () => {
-    dispatch(toggleDrawer(!isOpen)); // Dispatch the toggleDrawer action
+    dispatch(toggleDrawer(!isOpen)); 
   };
 
-  const handlePremium = useRazorpay();
-
+  const handlePremium = useRazorpay(token);
 
   return (
     <div className="relative">

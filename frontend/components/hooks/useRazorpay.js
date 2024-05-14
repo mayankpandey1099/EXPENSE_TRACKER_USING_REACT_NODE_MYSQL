@@ -4,9 +4,11 @@ import axios from "axios";
 import Razorpay from "razorpay";
 import { setPremium } from "../../utils/AuthSlice";
 
-const useRazorpay = () => {
+const useRazorpay = (token) => {
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
+
+  console.log("the token inside the useRazorpay", token);
+  
 
   const handlePremium = useCallback(async () => {
     try {
@@ -41,8 +43,10 @@ const useRazorpay = () => {
               }
             );
             rzp.close();
+
             alert("Payment Successful!! Thankyou for buying premium. Enjoy the new Services");
             dispatch(setPremium(true));
+
             return paymentResponse.json();
           } catch (error) {
             console.error("Error occurred while confirming payment", error);

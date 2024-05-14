@@ -1,13 +1,15 @@
 
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleDrawer } from "../../utils/DrawerSlice";
 import { clearAuthState } from "../../utils/AuthSlice"; 
 
+
 const Drawer = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.drawer.isOpen); // Get the drawer state
+  const navigate = useNavigate();
 
 
   const linkStyle = {
@@ -30,7 +32,7 @@ const Drawer = () => {
 
   const handleLogout = ()=>{
     dispatch(clearAuthState());
-    window.location.href = "/";
+    navigate("/signin");
   }
 
   return (
@@ -49,7 +51,7 @@ const Drawer = () => {
       ></h5>
       <div className="flex flex-col space-y-2" style={ulStyle}>
         <li style={liStyle}>
-          <Link to="/home" style={linkStyle}>
+          <Link to="/" style={linkStyle}>
             HOME
           </Link>
         </li>
