@@ -89,6 +89,7 @@ const port = process.env.PORT || 3000;
 async function initiate() {
   try {
     await sequelize.sync();
+    console.log("db connected successfully");
     app.listen(port, () => {
       console.log(`Server is running at ${port}`);
     });
@@ -97,3 +98,5 @@ async function initiate() {
   }
 }
 initiate();
+
+module.exports = app;
