@@ -35,7 +35,7 @@ const Signup = () => {
       
       
       const response = await axios.post(
-        "http://localhost:3000/sign/signup",
+        "https://expense-tracker-using-react-node-mysql.vercel.app/sign/signup",
         signupData
       );
 

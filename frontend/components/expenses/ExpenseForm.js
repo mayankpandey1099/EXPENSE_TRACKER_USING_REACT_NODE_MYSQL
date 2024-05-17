@@ -28,7 +28,7 @@ const ExpenseForm = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/expense`,
+        `https://expense-tracker-using-react-node-mysql.vercel.app/expense`,
         { amount, name, quantity },
         {
           headers: {

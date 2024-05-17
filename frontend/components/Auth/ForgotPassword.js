@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     const userEmail = {email};
     try {
       const response = await axios.post(
-        "http://localhost:3000/pass/forgot",
+        "https://expense-tracker-using-react-node-mysql.vercel.app/pass/forgot",
         userEmail
       );
       setEmailSent(true);

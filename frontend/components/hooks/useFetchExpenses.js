@@ -13,7 +13,7 @@ const useFetchExpenses = () => {
   const fetchExpenses = async (page) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/expense/expenses?page=${page}`,
+        `https://expense-tracker-using-react-node-mysql.vercel.app/expense/expenses?page=${page}`,
         {
           headers: {
             Authorization: token,
@@ -40,11 +40,14 @@ const useFetchExpenses = () => {
 
   const handleDeleteExpense = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/expense/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
+      await axios.delete(
+        `https://expense-tracker-using-react-node-mysql.vercel.app/expense/${id}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
       fetchExpenses(currentPages);
     } catch (error) {
       console.error("Error deleting expense:", error);

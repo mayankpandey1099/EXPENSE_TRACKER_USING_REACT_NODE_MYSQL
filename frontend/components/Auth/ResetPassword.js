@@ -29,9 +29,10 @@ const ResetPassword = () => {
     
     try {
       const resetPasswordData = {uuid, password};
-      const response = axios.post("http://localhost:3000/pass/reset",
+      const response = axios.post(
+        "https://expense-tracker-using-react-node-mysql.vercel.app/pass/reset",
         resetPasswordData
-      )
+      );
 
       setPassReset(true);
 

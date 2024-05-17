@@ -40,7 +40,7 @@ const UpdateExpenseModal = () => {
 
     try {
       await axios.put(
-        `http://localhost:3000/expense/${expenseId}`, 
+        `https://expense-tracker-using-react-node-mysql.vercel.app/expense/${expenseId}`,
         { amount, name, quantity },
         {
           headers: {

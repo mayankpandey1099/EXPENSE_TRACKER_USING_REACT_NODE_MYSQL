@@ -10,7 +10,7 @@ const useRazorpay = () => {
   const handlePremium = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/premium/takepremium`,
+        `https://expense-tracker-using-react-node-mysql.vercel.app/premium/takepremium`,
         {
           headers: {
             Authorization: token,
@@ -27,7 +27,7 @@ const useRazorpay = () => {
         handler: async function (response) {
           try {
             const paymentResponse = await axios.post(
-              `http://localhost:3000/premium/status`,
+              `https://expense-tracker-using-react-node-mysql.vercel.app/premium/status`,
               {
                 order_id: order_id,
                 payment_id: response.razorpay_payment_id,
