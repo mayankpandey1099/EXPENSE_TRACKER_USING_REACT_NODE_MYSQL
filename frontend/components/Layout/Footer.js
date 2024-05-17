@@ -3,7 +3,7 @@
 const Footer = () => {
     const linkStyle = {
       fontWeight: "bold",
-      fontFamily: "Montserrat, sans-serif", // Change the font family as per your preference
+      fontFamily: "Montserrat, sans-serif", 
     };
   return (
     <div

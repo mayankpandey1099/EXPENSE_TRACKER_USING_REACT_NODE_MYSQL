@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ResetPassword = () => {
@@ -9,6 +9,7 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [passReset, setPassReset] = useState(false);
   const { uuid } = useParams();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -27,18 +28,18 @@ const ResetPassword = () => {
     setLoading(true);
     
     try {
-      // Implement reset password logic here
       const resetPasswordData = {uuid, password};
       const response = axios.post("http://localhost:3000/pass/reset",
         resetPasswordData
       )
+
       setPassReset(true);
+
       setTimeout(() => {
         setPassReset(false);
         setShowModal(false);
-        window.location.href = "/signin";
-      }, 5000);
-       // Close the modal after reset password
+        navigate("/signin");
+      }, 3000);
     } catch (error) {
         if (error.response && error.response.status === 401) {
           alert("Link Expired. Please try again.");
@@ -63,7 +64,7 @@ const ResetPassword = () => {
                   </h3>
                 </div>
                 <div className="p-4">
-                  {passReset ? ( // Conditionally render based on email sent status
+                  {passReset ? ( 
                     <p className="text-green-600 mb-4">
                       Changing password. Please wait...
                     </p>

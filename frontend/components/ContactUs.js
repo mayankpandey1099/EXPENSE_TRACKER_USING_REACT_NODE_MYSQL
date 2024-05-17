@@ -3,7 +3,7 @@ import React from "react";
 const ContactUs = () => {
     const linkStyle = {
       fontWeight: "bold",
-      fontFamily: "Montserrat, sans-serif", // Change the font family as per your preference
+      fontFamily: "Montserrat, sans-serif", 
     };
   return (
     <div className="flex flex-wrap justify-center container m-4 py-8 max-h-full">

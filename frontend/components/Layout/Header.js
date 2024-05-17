@@ -15,21 +15,20 @@ const Header = () => {
   const isOpen = useSelector((state) => state.drawer.isOpen);
   const isAuthenticated = useSelector((state) => state.auth.isAuth);
   const isPremium = useSelector((state) => state.auth.isPremium); 
+
+
   const dispatch = useDispatch();
-  let token = localStorage.getItem("token");
 
   useEffect(() => {
-    // This useEffect will re-run whenever isPremium changes
-     token = localStorage.getItem("token");
   }, [isPremium, isAuthenticated]);
 
-  // Function to handle click on Sign in button
+
   const handleSignInClick = () => {
     dispatch(setModalStateSignin(true));
     dispatch(setModalStateSignup(false));
   };
 
-  // Function to handle click on Sign Up button
+  
   const handleSignUpClick = () => {
     dispatch(setModalStateSignup(true));
     dispatch(setModalStateSignin(false));
@@ -40,7 +39,10 @@ const Header = () => {
     dispatch(toggleDrawer(!isOpen)); 
   };
 
-  const handlePremium = useRazorpay(token);
+
+  const handlePremium = useRazorpay()
+
+
 
   return (
     <div className="relative">
@@ -71,7 +73,6 @@ const Header = () => {
                       title="You are a premium user"
                     />
                   </div>
-                  {/* Tooltip message */}
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-white text-black px-2 py-1 rounded-md shadow-md opacity-0 pointer-events-none transition-opacity duration-300">
                     You are a premium user
                   </div>

@@ -6,32 +6,37 @@ import { toggleDrawer } from "../../utils/DrawerSlice";
 import { clearAuthState } from "../../utils/AuthSlice"; 
 
 
+
 const Drawer = () => {
+
+  const isOpen = useSelector((state) => state.drawer.isOpen); 
+
   const dispatch = useDispatch();
-  const isOpen = useSelector((state) => state.drawer.isOpen); // Get the drawer state
   const navigate = useNavigate();
 
 
   const linkStyle = {
     fontWeight: "bold",
-    fontFamily: "Montserrat, sans-serif", // Change the font family as per your preference
+    fontFamily: "Montserrat, sans-serif", 
     fontSize: "1.2rem",
   };
+
   const ulStyle = {
-    listStyleType: "none", // Remove bullets from the list items
+    listStyleType: "none", 
   };
 
   const liStyle = {
-    borderBottom: "2px solid #31363F", // Add border below each li // Add border above each li
-    padding: "4px 0", // Add padding for spacing
+    borderBottom: "2px solid #31363F", 
+    padding: "4px 0", 
   };
 
   const handleCloseButton = ()=>{
     dispatch(toggleDrawer(!isOpen));
   }
 
-  const handleLogout = ()=>{
+  const handleLogout = async()=>{
     dispatch(clearAuthState());
+    dispatch(toggleDrawer(!isOpen));
     navigate("/signin");
   }
 
@@ -102,20 +107,4 @@ const Drawer = () => {
 export default Drawer;
 
 
-{/* <div className="flex gap-20 mx-auto" style={ulStyle}>
-      <li>
-        <Link to="/home" style={linkStyle}>
-          HOME
-        </Link>
-      </li>
-      <li>
-        <Link to="/contactus" style={linkStyle}>
-          CONTACT US
-        </Link>
-      </li>
-      <li>
-        <Link to="/about" style={linkStyle}>
-          ABOUT
-        </Link>
-      </li>
-</div>; */}
+

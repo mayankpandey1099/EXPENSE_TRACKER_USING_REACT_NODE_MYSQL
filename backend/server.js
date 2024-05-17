@@ -7,7 +7,7 @@ const path = require("path");
 const sequelize = require("./database");
 const fs = require("fs");
 // const helmet = require("helmet");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 
 //importing middleware
 const verify = require("./middleware/verifyToken");
@@ -28,10 +28,10 @@ const forgotPasswordRequest = require("./models/forgotpassModel");
 //instantiating the application
 const app = express();
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "access.log"),
-  { flags: "a" }
-);
+// const accessLogStream = fs.createWriteStream(
+//   path.join(__dirname, "access.log"),
+//   { flags: "a" }
+// );
 
 
 // calling cors, json, making absolute path for static files
@@ -39,7 +39,7 @@ const accessLogStream = fs.createWriteStream(
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 
 

@@ -16,12 +16,13 @@ const UpdateExpenseModal = () => {
   const showModal = useSelector((state)=> state.modal.showModalUpdate);
   const currentPages = useSelector((state) => state.expense.currentPages);
   const expenseId = useSelector((state)=> state.expense.expenseId);
+  const token = useSelector((state)=> state.auth.isToken);
 
 
   const dispatch = useDispatch();
 
 
-  const token = localStorage.getItem("token");
+  
 
 
   const handleSubmit = async (e) => {
@@ -39,7 +40,7 @@ const UpdateExpenseModal = () => {
 
     try {
       await axios.put(
-        `http://localhost:3000/expense/${expenseId}`, // Endpoint with the expenseId
+        `http://localhost:3000/expense/${expenseId}`, 
         { amount, name, quantity },
         {
           headers: {
@@ -47,19 +48,18 @@ const UpdateExpenseModal = () => {
           },
         }
       );
-      // Dispatch an action to fetch expenses again after adding a new expense
+      
       dispatch(fetchExpenses(currentPages));
     } catch (error) {
       console.error("Error occurred while storing data", error);
     }
 
-    // Clear input fields and error
+    
     setName("");
     setQuantity("");
     setAmount("");
     setError("");
 
-    // Close the modal
     handleCloseModal();
   };
 
@@ -75,8 +75,8 @@ const UpdateExpenseModal = () => {
       setError("");
     }
   };
-// className =
-//   "fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex justify-center items-center z-50";
+
+  
   return (
     showModal && (
       <div className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex justify-center items-center">
@@ -122,7 +122,7 @@ const UpdateExpenseModal = () => {
               type="submit"
               className="ml-2 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md"
             >
-              Add Expense
+              Update Expense
             </button>
           </form>
         </div>

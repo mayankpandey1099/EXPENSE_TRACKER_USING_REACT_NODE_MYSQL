@@ -4,12 +4,16 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     isAuth: localStorage.getItem("token") ? true : false,
+    isToken: localStorage.getItem("token") || null,
     isPremium: localStorage.getItem("isPremium") === "true",
   },
   reducers: {
     setAuthenticated: (state, action) => {
-      state.isAuth = true;
-      localStorage.setItem("token", action.payload); // Assuming action.token contains the token
+      state.isAuth = action.payload; 
+    },
+    setToken: (state, action) => {
+      state.isToken = action.payload;
+      localStorage.setItem("token", action.payload);
     },
     setPremium: (state, action) => {
       state.isPremium = action.payload;
@@ -24,6 +28,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setAuthenticated, setPremium, clearAuthState } = authSlice.actions;
+export const { setAuthenticated, setPremium, clearAuthState, setToken } = authSlice.actions;
 
 export default authSlice.reducer;

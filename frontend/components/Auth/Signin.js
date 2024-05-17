@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Link, useNavigate} from "react-router-dom";
-import { setAuthenticated, setPremium } from "../../utils/AuthSlice";
-import { setModalStateSignin } from "../../utils/ModalSlice";
-
+import { setAuthenticated, setPremium, setToken} from "../../utils/AuthSlice";
+import {
+  setModalStateSignin,
+  setModalStateSignup,
+} from "../../utils/ModalSlice";
 
 
 const Signin = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);// Access the setAuthenticated function from CartContext
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const showModal = useSelector((state) => state.modal.showModalSignin);
   const navigate = useNavigate();
@@ -19,27 +21,28 @@ const Signin = () => {
 
 
   const handleSignIn = async () => {
-    // Implement sign-in logic here
     setLoading(true);
     const signInData = { email, password };
 
 
     try {
+      
       const response = await axios.post(
         "http://localhost:3000/sign/login",
         signInData
       );
+
       const token = response.data.token;
       const isPremium = response.data.isPremium;
 
-      dispatch(setAuthenticated(token));
+      dispatch(setAuthenticated(true));
+      dispatch(setToken(token));
       dispatch(setPremium(isPremium));
       dispatch(setModalStateSignin(false));
         
       navigate("/");
     
     } catch (error) {
-      // Handle error here
       if (error.response && error.response.status === 409) {
         alert("Password does not match. Please try again.");
       } else if (error.response && error.response.status === 404) {
@@ -48,9 +51,14 @@ const Signin = () => {
         console.error("Error signing in:", error);
       }
     } finally {
-      setLoading(false); // Hide loading spinner regardless of success or failure
+      setLoading(false);
     }
   };
+
+  const handleSignup = ()=>{
+    dispatch(setModalStateSignup(true));
+
+  }
 
 
   const handleCloseModal = () => {
@@ -144,8 +152,8 @@ const Signin = () => {
                   {loading ? "Logging in..." : "Login to your account"}
                 </button>
                 <div className="text-sm font-medium text-gray-500">
-                  <button className="text-blue-500 hover:underline">
-                    <Link to="/signup">Sign Up</Link>
+                  <button className="text-blue-500 hover:underline" onClick={handleSignup}>
+                    Sign Up
                   </button>
                 </div>
               </form>

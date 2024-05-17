@@ -12,9 +12,7 @@ const ExpenseForm = () => {
 
 
   const currentPages = useSelector((state)=> state.expense.currentPages);
-  
- 
-  const token = localStorage.getItem("token");
+  const token  = useSelector((state)=> state.auth.isToken);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +36,7 @@ const ExpenseForm = () => {
           },
         }
       );
+      
       await fetchExpenses(currentPages);
 
     } catch (error) {

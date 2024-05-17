@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { clearAuthState } from '../../utils/AuthSlice'; // Import your action creator for clearing the token
+import { clearAuthState, setToken } from '../../utils/AuthSlice'; 
 
 const useClearToken = () => {
   const location = useLocation();
@@ -11,9 +11,11 @@ const useClearToken = () => {
   useEffect(() => {
     const { pathname } = location;
     const pagesToClearToken = ["/", "/signup", "/forgotpassword"];
+    
     if (pagesToClearToken.includes(pathname)) {
-      dispatch(clearAuthState()); // Dispatch the action to clear the token
-      navigate("/"); // Navigate to the home page or any other desired location
+      dispatch(clearAuthState());
+      dispatch(setToken(null)); 
+      navigate("/"); 
     }
   }, [location, dispatch, navigate]);
 };

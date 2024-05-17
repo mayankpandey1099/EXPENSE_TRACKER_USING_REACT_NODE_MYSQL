@@ -11,7 +11,10 @@ const PaginatedExpense = () => {
       handleNextPage,
       handleDeleteExpense
     } = useFetchExpenses();
+    
   const dispatch = useDispatch();
+
+
   const expenses = useSelector((state)=>state.expense.expenses);
   const currentPages = useSelector((state) => state.expense.currentPages);
   const totalPages = useSelector((state) => state.expense.totalPages);

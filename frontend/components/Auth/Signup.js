@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setAuthenticated, setPremium } from "../../utils/AuthSlice.js";
+import { setAuthenticated, setPremium, setToken } from "../../utils/AuthSlice.js";
 import { setModalStateSignup } from "../../utils/ModalSlice";
 import { useNavigate } from "react-router-dom";
+
+
+
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -21,34 +24,38 @@ const Signup = () => {
   };
 
   const handleSignUp = async () => {
-    // Check if passwords match
     if (!validatePassword()) {
       alert("Passwords do not match.");
       return;
     }
     setLoading(true);
 
-    // Proceed with sign-up logic
     const signupData = { name, email, password };
     try {
+      
+      
       const response = await axios.post(
         "http://localhost:3000/sign/signup",
         signupData
       );
-    // Handle success response here
+
       const token = response.data.token;
       const isPremium = response.data.isPremium;
-      console.log(isPremium, "this is isPremium");
-      dispatch(setAuthenticated(token));
+
+
+      dispatch(setAuthenticated(true));
+      dispatch(setToken(token));
       dispatch(setPremium(isPremium));
       dispatch(setModalStateSignup(false));
+
       navigate("/");
+      
     } catch (error) {
       if (error.response && error.response.status === 409) {
         alert("Email is already registered. Please sign in with that email.");
       } else {
         alert("An error occurred while signing up. Please try again later.");
-      }// Handle error here
+      }
     } finally{
         setLoading(false);
     }

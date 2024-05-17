@@ -8,7 +8,7 @@ const ForgotPassword = () => {
   const [emailSent, setEmailSent] = useState(false);
 
    useEffect(() => {
-     setShowModal(true); // Open the modal when the component mounts
+     setShowModal(true);
    }, []);
 
 
@@ -20,7 +20,6 @@ const ForgotPassword = () => {
         "http://localhost:3000/pass/forgot",
         userEmail
       );
-      console.log(response.data); // Handle success response here
       setEmailSent(true);
       setTimeout(() => {
         setEmailSent(false);
@@ -51,7 +50,7 @@ const ForgotPassword = () => {
                   </h3>
                 </div>
                 <div className="p-4">
-                  {emailSent ? ( // Conditionally render based on email sent status
+                  {emailSent ? ( 
                     <p className="text-green-600 mb-4">
                       Please check your email and reset your password from
                       there.

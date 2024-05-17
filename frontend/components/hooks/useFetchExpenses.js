@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setExpenses, setTotalPages, setCurrentPages } from "../../utils/ExpenseSlice";
 
 const useFetchExpenses = () => {
-  const token = localStorage.getItem("token");
+  const token = useSelector((state)=> state.auth.isToken);
   const dispatch = useDispatch();
   const currentPages = useSelector((state)=>state.expense.currentPages);
   const expenses = useSelector((state)=>state.expense.expenses);
@@ -45,7 +45,6 @@ const useFetchExpenses = () => {
           Authorization: token,
         },
       });
-      // Refetch expenses after deletion
       fetchExpenses(currentPages);
     } catch (error) {
       console.error("Error deleting expense:", error);
@@ -53,7 +52,6 @@ const useFetchExpenses = () => {
   };
   
   if (expenses.length === 0 && currentPages > 1) {
-    // Move to previous page if it exists
     dispatch(setCurrentPages(currentPages - 1));
   }
   
